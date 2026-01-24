@@ -13,7 +13,7 @@ async function greet() {
 
 <template>
   <main class="container">
-    <h1>Welcome to Tauri + Vue</h1>
+    <h1 class="underline text-cyan-600">Welcome to Tauri + Vue</h1>
 
     <div class="row">
       <a href="https://vite.dev" target="_blank">
@@ -44,7 +44,6 @@ async function greet() {
 .logo.vue:hover {
   filter: drop-shadow(0 0 2em #249b73);
 }
-
 </style>
 <style>
 :root {
@@ -156,5 +155,4 @@ button {
     background-color: #0f0f0f69;
   }
 }
-
 </style>
