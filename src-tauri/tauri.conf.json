@@ -12,9 +12,11 @@
   "app": {
     "windows": [
       {
-        "title": "livotech-desktop-attendance",
-        "width": 800,
-        "height": 600
+        "title": "livotech Attendance System",
+        "width": 1920,
+        "height": 1080,
+        "resizable": false,
+        "fullscreen": true
       }
     ],
     "security": {
