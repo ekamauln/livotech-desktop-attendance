@@ -10,7 +10,7 @@ This is an app that run on desktop for Livotech Attendance System built with Tau
 
 ```bash
 # Clone the repo
-git clone https://github.com/yourusername/livotech-desktop-attendance.git
+git clone https://github.com/ekamauln/livotech-desktop-attendance.git
 
 # Install dependencies
 cd livotech-desktop-attendance
