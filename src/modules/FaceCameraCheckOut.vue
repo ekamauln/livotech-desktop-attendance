@@ -157,6 +157,19 @@ async function captureFrame(): Promise<Blob | null> {
   });
 }
 
+function formatCheckedOutTime(dateString: string): string {
+  const date = new Date(dateString);
+
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = date.toLocaleString("en-US", { month: "short" }).toUpperCase();
+  const year = date.getFullYear();
+  const hours = String(date.getHours()).padStart(2, "0");
+  const minutes = String(date.getMinutes()).padStart(2, "0");
+  const seconds = String(date.getSeconds()).padStart(2, "0");
+
+  return `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
+}
+
 async function verifyFace() {
   isVerifying.value = true;
   lastVerificationTime.value = Date.now();
@@ -175,30 +188,42 @@ async function verifyFace() {
     formData.append("image", imageBlob, "face.jpg");
 
     const res = await fetch(
-      `${import.meta.env.VITE_API_URL}attendances/search/face`,
+      `${import.meta.env.VITE_API_URL}attendances/checkout/face`,
       {
-        method: "POST",
+        method: "PUT",
         body: formData,
       },
     );
 
+    const responseData = await res.json();
+    console.log("Verification result:", responseData);
+
     if (!res.ok) {
-      throw new Error(`HTTP error! status: ${res.status}`);
+      const errorMessage =
+        responseData.error || `HTTP error! status: ${res.status}`;
+      toast.error("Check out failed", {
+        description: errorMessage,
+      });
+      isVerifying.value = false;
+      return { matched: false, error: errorMessage };
     }
 
-    const data = await res.json();
-    console.log("Verification result:", data);
+    if (responseData.success && responseData.data?.matched) {
+      const { user, attendance } = responseData.data;
+      const formattedTime = formatCheckedOutTime(attendance.checkedOut);
 
-    if (data.matched) {
-      toast.success(`Welcome, ${data.user.fullName}!`, {
-        description: `Confidence: ${(data.confidence * 100).toFixed(1)}%`,
+      toast.success(`Thanks, ${user.fullName}!`, {
+        description: `Checked out at ${formattedTime}`,
       });
     } else {
-      toast.error("Face not recognized");
+      const errorMessage = responseData.error || "Face not recognized";
+      toast.error("Face not recognized", {
+        description: errorMessage,
+      });
     }
 
     isVerifying.value = false;
-    return data;
+    return responseData;
   } catch (error) {
     console.error("Face verification failed:", error);
     toast.error("Verification failed", {
