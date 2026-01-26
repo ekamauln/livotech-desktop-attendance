@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import FaceCameraCheckOut from "@/modules/FaceCameraCheckOut.vue";
+import CheckOutForm from "@/modules/CheckOutForm.vue";
 </script>
 
 <template>
@@ -10,8 +10,8 @@ import FaceCameraCheckOut from "@/modules/FaceCameraCheckOut.vue";
       class="fixed top-5 left-5 z-50 hover:scale-105 transition-transform flex items-center gap-4 group"
     >
       <img
-        src="@/assets/images/check-out-face.png"
-        alt="Face CheckOut"
+        src="@/assets/images/check-out-manual.png"
+        alt="Manual CheckOut"
         width="50"
         height="50"
         class="drop-shadow-xl drop-shadow-red-500/50"
@@ -19,7 +19,7 @@ import FaceCameraCheckOut from "@/modules/FaceCameraCheckOut.vue";
       <div class="relative overflow-hidden h-7 flex items-center">
         <span
           class="text-lg font-bold text-red-500 drop-shadow-md drop-shadow-red-500/50 whitespace-nowrap transition-all duration-300 ease-out group-hover:-translate-y-full group-hover:opacity-0"
-          >Face CheckIn</span
+          >Manual CheckOut</span
         >
         <span
           class="text-lg font-bold text-red-500 drop-shadow-md drop-shadow-red-500/50 whitespace-nowrap absolute top-full transition-all duration-300 ease-out group-hover:top-0 group-hover:opacity-100 opacity-0"
@@ -28,6 +28,6 @@ import FaceCameraCheckOut from "@/modules/FaceCameraCheckOut.vue";
       </div>
     </a>
 
-    <FaceCameraCheckOut />
+    <CheckOutForm />
   </div>
 </template>

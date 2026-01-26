@@ -18,6 +18,16 @@ const router = createRouter({
       name: "check-out-face",
       component: () => import("@/pages/check-out-face.vue"),
     },
+    {
+      path: "/check-in-manual",
+      name: "check-in-manual",
+      component: () => import("@/pages/check-in-manual.vue"),
+    },
+    {
+      path: "/check-out-manual",
+      name: "check-out-manual",
+      component: () => import("@/pages/check-out-manual.vue"),
+    },
   ],
 });
 

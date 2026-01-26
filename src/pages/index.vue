@@ -95,12 +95,12 @@ const handleClick = (event: MouseEvent, index: number, href: string) => {
             />
           </a>
           <a
-            href="/check-in/manual"
+            href="/check-in-manual"
             class="relative flex flex-col items-center group overflow-hidden transition-opacity duration-500"
             :class="{
               'opacity-100': clickedIcon === 1 || clickedIcon === null,
             }"
-            @click.prevent="handleClick($event, 1, '/check-in/manual')"
+            @click.prevent="handleClick($event, 1, '/check-in-manual')"
           >
             <div
               class="absolute -top-8 opacity-0 transform -translate-y-2 transition-all duration-300 ease-out group-hover:top-0 group-hover:opacity-100 group-hover:translate-y-0 mb-2"
@@ -143,12 +143,12 @@ const handleClick = (event: MouseEvent, index: number, href: string) => {
             />
           </a>
           <a
-            href="/check-out/manual"
+            href="/check-out-manual"
             class="relative flex flex-col items-center group overflow-hidden transition-opacity duration-500"
             :class="{
               'opacity-100': clickedIcon === 3 || clickedIcon === null,
             }"
-            @click.prevent="handleClick($event, 3, '/check-out/manual')"
+            @click.prevent="handleClick($event, 3, '/check-out-manual')"
           >
             <div
               class="absolute -top-8 opacity-0 transform -translate-y-2 transition-all duration-300 ease-out group-hover:top-0 group-hover:opacity-100 group-hover:translate-y-0 mb-2"
