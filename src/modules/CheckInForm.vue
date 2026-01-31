@@ -81,12 +81,12 @@ async function handleSubmit() {
     );
 
     const responseData = await res.json();
-    console.log("Check-in result:", responseData);
+    console.log("Hasil check-in:", responseData);
 
     if (!res.ok) {
       const errorMessage =
         responseData.error || `HTTP error! status: ${res.status}`;
-      toast.error("Check in failed", {
+      toast.error("Check-in gagal", {
         description: errorMessage,
       });
       isSubmitting.value = false;
@@ -97,8 +97,8 @@ async function handleSubmit() {
       const { user, attendance } = responseData.data;
       const formattedTime = formatCheckedInTime(attendance.checkedIn);
 
-      toast.success(`Welcome, ${user.fullName}!`, {
-        description: `Checked in at ${formattedTime}`,
+      toast.success(`Selamat datang, ${user.fullName}!`, {
+        description: `Check-in pada ${formattedTime}`,
       });
 
       // Clear form on success
@@ -106,15 +106,15 @@ async function handleSubmit() {
       password.value = "";
     } else {
       const errorMessage = responseData.error || "Authentication failed";
-      toast.error("Check-in failed", {
+      toast.error("Check-in gagal", {
         description: errorMessage,
       });
     }
 
     isSubmitting.value = false;
   } catch (error) {
-    console.error("Check-in failed:", error);
-    toast.error("Check-in failed", {
+    console.error("Check-in gagal:", error);
+    toast.error("Check-in gagal", {
       description: error instanceof Error ? error.message : String(error),
     });
     isSubmitting.value = false;

@@ -177,10 +177,10 @@ async function verifyFace() {
   const imageBlob = await captureFrame();
 
   if (!imageBlob) {
-    console.error("Failed to capture frame");
-    toast.error("Failed to capture frame");
+    console.error("Gagal menangkap frame");
+    toast.error("Gagal menangkap frame");
     isVerifying.value = false;
-    return { matched: false, error: "Failed to capture frame" };
+    return { matched: false, error: "Gagal menangkap frame" };
   }
 
   try {
@@ -196,12 +196,12 @@ async function verifyFace() {
     );
 
     const responseData = await res.json();
-    console.log("Verification result:", responseData);
+    console.log("Hasil verifikasi:", responseData);
 
     if (!res.ok) {
       const errorMessage =
         responseData.error || `HTTP error! status: ${res.status}`;
-      toast.error("Check in failed", {
+      toast.error("Check-in gagal", {
         description: errorMessage,
       });
       isVerifying.value = false;
@@ -212,12 +212,12 @@ async function verifyFace() {
       const { user, attendance } = responseData.data;
       const formattedTime = formatCheckedInTime(attendance.checkedIn);
 
-      toast.success(`Welcome, ${user.fullName}!`, {
-        description: `Checked in at ${formattedTime}`,
+      toast.success(`Selamat datang, ${user.fullName}!`, {
+        description: `Check-in pada ${formattedTime}`,
       });
     } else {
       const errorMessage = responseData.error || "Face not recognized";
-      toast.error("Face not recognized", {
+      toast.error("Wajah tidak dikenali", {
         description: errorMessage,
       });
     }
@@ -225,8 +225,8 @@ async function verifyFace() {
     isVerifying.value = false;
     return responseData;
   } catch (error) {
-    console.error("Face verification failed:", error);
-    toast.error("Verification failed", {
+    console.error("Verifikasi wajah gagal:", error);
+    toast.error("Verifikasi gagal", {
       description: error instanceof Error ? error.message : String(error),
     });
     isVerifying.value = false;
