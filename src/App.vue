@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import "vue-sonner/style.css";
 import { Toaster } from "@/components/ui/sonner";
-import MatrixBackground from "@/modules/MatrixBackground.vue";
+// import MatrixBackground from "@/modules/MatrixBackground.vue";
+import CyberpunkBackground from "@/modules/CyberpunkBackground.vue";
 import LoadingIndicator from "@/modules/LoadingIndicator.vue";
 </script>
 
 <template>
   <LoadingIndicator />
-  <MatrixBackground />
+  <!-- <MatrixBackground /> -->
+  <CyberpunkBackground />
   <RouterView />
   <Toaster
     rich-colors
