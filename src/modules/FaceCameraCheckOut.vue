@@ -2,6 +2,7 @@
 import * as faceapi from "face-api.js";
 import { onMounted, ref } from "vue";
 import { toast } from "vue-sonner";
+import { useTTS } from "@/lib/useTTS";
 import { fetch } from "@tauri-apps/plugin-http";
 import { Card, CardContent } from "@/components/ui/card";
 
@@ -14,6 +15,9 @@ const faceDetectedTime = ref<number>(0);
 const DETECTION_DELAY = 1000; // 1s delay after stable face detection before verification
 const statusText = ref<string>("Position your face");
 const countdown = ref<number>(0);
+
+// Initialize TTS (Text-to-Speech) - though not used in this component yet
+const { speak, unlockAudio } = useTTS();
 
 async function loadModels() {
   const MODEL_URL = "/models";
@@ -171,6 +175,9 @@ function formatCheckedOutTime(dateString: string): string {
 }
 
 async function verifyFace() {
+  // Unlock audio on first interaction
+  await unlockAudio();
+
   isVerifying.value = true;
   lastVerificationTime.value = Date.now();
 
@@ -179,6 +186,7 @@ async function verifyFace() {
   if (!imageBlob) {
     console.error("Gagal menangkap frame");
     toast.error("Gagal menangkap frame");
+    await speak("Gagal menangkap frame");
     isVerifying.value = false;
     return { matched: false, error: "Gagal menangkap frame" };
   }
@@ -204,6 +212,7 @@ async function verifyFace() {
       toast.error("Check out gagal", {
         description: errorMessage,
       });
+      await speak(errorMessage);
       isVerifying.value = false;
       return { matched: false, error: errorMessage };
     }
@@ -215,11 +224,13 @@ async function verifyFace() {
       toast.success(`Terima kasih, ${user.fullName}!`, {
         description: `Check-out pada ${formattedTime}`,
       });
+      await speak(`Terima kasih, ${user.fullName}.`);
     } else {
       const errorMessage = responseData.error || "Face not recognized";
       toast.error("Wajah tidak dikenali", {
         description: errorMessage,
       });
+      await speak(errorMessage);
     }
 
     isVerifying.value = false;
@@ -229,6 +240,7 @@ async function verifyFace() {
     toast.error("Verifikasi gagal", {
       description: error instanceof Error ? error.message : String(error),
     });
+    await speak(error instanceof Error ? error.message : String(error));
     isVerifying.value = false;
     return { matched: false, error: String(error) };
   }

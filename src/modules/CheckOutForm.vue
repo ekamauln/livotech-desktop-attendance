@@ -2,6 +2,7 @@
 import { ref } from "vue";
 import { z } from "zod";
 import { toast } from "vue-sonner";
+import { useTTS } from "@/lib/useTTS";
 import { fetch } from "@tauri-apps/plugin-http";
 import {
   Field,
@@ -15,6 +16,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
+
+// Initialize TTS (Text-to-Speech) - though not used in this component yet
+const { speak, unlockAudio } = useTTS();
 
 // Form state
 const username = ref("");
@@ -44,6 +48,9 @@ function formatCheckedOutTime(dateString: string): string {
 }
 
 async function handleSubmit() {
+  // Unlock audio on first interaction
+  await unlockAudio();
+
   // Reset errors
   errors.value = {};
 
@@ -89,6 +96,7 @@ async function handleSubmit() {
       toast.error("Check-in gagal", {
         description: errorMessage,
       });
+      await speak(errorMessage);
       isSubmitting.value = false;
       return;
     }
@@ -100,6 +108,7 @@ async function handleSubmit() {
       toast.success(`Terimah kasih, ${user.fullName}!`, {
         description: `Check out pada ${formattedTime}`,
       });
+      await speak(`Terimah kasih, ${user.fullName}.`);
 
       // Clear form on success
       username.value = "";
@@ -109,6 +118,7 @@ async function handleSubmit() {
       toast.error("Check-in gagal", {
         description: errorMessage,
       });
+      await speak(errorMessage);
     }
 
     isSubmitting.value = false;
@@ -117,6 +127,7 @@ async function handleSubmit() {
     toast.error("Check-in gagal", {
       description: error instanceof Error ? error.message : String(error),
     });
+    await speak(error instanceof Error ? error.message : String(error));
     isSubmitting.value = false;
   }
 }
